@@ -7,17 +7,20 @@ import { ImageGalleryItem } from './ImageGalleryItem';
 export class ImageGallery extends Component {
   state = {
     images: [],
+    page: 1,
     total: '',
     loading: false,
   };
   componentDidUpdate(prevProps, prevState) {
     const prevQuery = prevProps.query;
     const nextQuery = this.props.query;
-    const prevPage = prevProps.page;
-    const nextPage = this.props.page;
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
+    console.log(prevPage);
+    console.log(nextPage);
     if (prevQuery !== nextQuery) {
       this.setState({ loading: true });
-      fetchImages({ page: 1, query: nextQuery })
+      fetchImages({ page: this.state.page, query: nextQuery })
         .then(response =>
           this.setState({
             images: [prevState.images, ...response.data.hits],
@@ -26,15 +29,19 @@ export class ImageGallery extends Component {
         )
         .finally(() => this.setState({ loading: false }));
     }
-    if (prevPage !== nextPage) {
+    if (prevPage < nextPage) {
       fetchImages({ page: nextPage, query: prevQuery }).then(response =>
-        this.setState({ images: [prevState.images, ...response.data.hits] }),
+        this.setState({ images: [...prevState.images, ...response.data.hits] }),
       );
     }
   }
+
+  nextPage() {
+    const nextPage = this.state.page + 1;
+    this.setState({ page: nextPage });
+  }
   render() {
     const { images, loading, total } = this.state;
-    console.log(images.length);
     return (
       <div>
         {loading && (
@@ -52,7 +59,11 @@ export class ImageGallery extends Component {
           ))}
         </ul>
         {images.length < total && (
-          <Button type={'button'} title={'Load more'} />
+          <Button
+            type={'button'}
+            title={'Load more'}
+            onClick={() => this.nextPage()}
+          />
         )}
       </div>
     );
