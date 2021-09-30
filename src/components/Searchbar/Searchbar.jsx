@@ -10,12 +10,13 @@ export class Searchbar extends Component {
   };
 
   handleSubmit = e => {
+    const { query } = this.state;
     e.preventDefault();
     if (this.state.query.trim() === '') {
       toast.info('Введите текс для поиска.');
       return;
     }
-    this.props.onSubmit(this.state.query);
+    this.props.onSubmit(query);
   };
 
   render() {
