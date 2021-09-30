@@ -5,8 +5,8 @@ const modalRoot = document.querySelector('#modal-root');
 export class Modal extends Component {
   render() {
     return createPortal(
-      <div className="modal-backdrop">
-        <div className="modal-contetnt">{this.props.children} </div>
+      <div className="Overlay">
+        <div className="Modal">{this.props.children} </div>
       </div>,
       modalRoot,
     );

@@ -1,11 +1,15 @@
-import react from 'react';
 import PropTypes from 'prop-types';
 
 export const ImageGalleryItem = props => {
-  const { url, name } = props;
+  const { id, url, name } = props;
   return (
-    <li className="ImageGalleryItem">
-      <img src={url} alt={name} className="ImageGalleryItem-image" />
+    <li key={id} className="ImageGalleryItem">
+      <img
+        src={url}
+        alt={name}
+        width="150"
+        className="ImageGalleryItem-image"
+      />
     </li>
   );
 };
