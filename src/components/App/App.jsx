@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
+import Loader from 'react-loader-spinner';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import fetchImages from '../services/image-api';
 import { Modal } from '../Modal/Modal';
@@ -9,6 +10,7 @@ export class App extends Component {
   state = {
     query: '',
     openModal: false,
+    loading: false,
     image: {
       id: '',
       url: '',
@@ -19,16 +21,19 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { id } = this.state.image;
     if (prevState.image.id !== this.state.image.id) {
-      fetchImages({ id: id }).then(response =>
-        this.setState({
-          openModal: true,
-          image: {
-            id: response.data.hits[0].id,
-            url: response.data.hits[0].largeImageURL,
-            name: response.data.hits[0].tags,
-          },
-        }),
-      );
+      this.setState({ loading: true });
+      fetchImages({ id: id })
+        .then(response =>
+          this.setState({
+            openModal: true,
+            image: {
+              id: response.data.hits[0].id,
+              url: response.data.hits[0].largeImageURL,
+              name: response.data.hits[0].tags,
+            },
+          }),
+        )
+        .finally(() => this.setState({ loading: false }));
     }
   }
   handleImage = query => {
@@ -44,8 +49,8 @@ export class App extends Component {
     this.setState({ image: { id: id } });
   };
   render() {
-    const { id, url, name } = this.state.image;
-    const { query, openModal } = this.state;
+    const { url, name } = this.state.image;
+    const { loading, query, openModal } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleImage} />
@@ -58,7 +63,26 @@ export class App extends Component {
             <img src={url} alt={name} openImage={this.openImage} />
           </Modal>
         )}
-        <ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        {loading && (
+          <Loader
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            timeout={3000}
+          />
+        )}
       </div>
     );
   }

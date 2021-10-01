@@ -29,9 +29,14 @@ export class ImageGallery extends Component {
         .finally(() => this.setState({ loading: false }));
     }
     if (prevPage < nextPage) {
-      fetchImages({ page: nextPage, query: prevQuery }).then(response =>
-        this.setState({ images: [...prevState.images, ...response.data.hits] }),
-      );
+      this.setState({ loading: true });
+      fetchImages({ page: nextPage, query: prevQuery })
+        .then(response =>
+          this.setState({
+            images: [...prevState.images, ...response.data.hits],
+          }),
+        )
+        .finally(() => this.setState({ loading: false }));
     }
     window.scrollTo({
       top: document.documentElement.scrollHeight,
