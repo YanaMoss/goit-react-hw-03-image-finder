@@ -12,7 +12,7 @@ export class Searchbar extends Component {
   state = { query: '' };
 
   handleChange = e => {
-    this.setState({ query: e.currentTarget.value });
+    this.setState({ query: e.currentTarget.value.replace(' ', '+') });
   };
 
   handleSubmit = e => {
