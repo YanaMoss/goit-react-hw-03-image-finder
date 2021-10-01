@@ -3,6 +3,7 @@ import Loader from 'react-loader-spinner';
 import { Button } from '../Button/Button';
 import fetchImages from '../services/image-api';
 import { ImageGalleryItem } from './ImageGalleryItem';
+import { ImageGalleryContainer } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
   state = {
@@ -16,14 +17,12 @@ export class ImageGallery extends Component {
     const nextQuery = this.props.query;
     const prevPage = prevState.page;
     const nextPage = this.state.page;
-    console.log(prevPage);
-    console.log(nextPage);
     if (prevQuery !== nextQuery) {
       this.setState({ loading: true });
       fetchImages({ page: this.state.page, query: nextQuery })
         .then(response =>
           this.setState({
-            images: [prevState.images, ...response.data.hits],
+            images: [...response.data.hits],
             total: response.data.totalHits,
           }),
         )
@@ -34,12 +33,21 @@ export class ImageGallery extends Component {
         this.setState({ images: [...prevState.images, ...response.data.hits] }),
       );
     }
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   nextPage() {
     const nextPage = this.state.page + 1;
     this.setState({ page: nextPage });
   }
+
+  getImage = imageId => {
+    this.props.onClick(imageId);
+  };
+
   render() {
     const { images, loading, total } = this.state;
     return (
@@ -53,11 +61,16 @@ export class ImageGallery extends Component {
             timeout={3000}
           />
         )}
-        <ul className="ImageGallery">
-          {images.map(({ id, previewURL, tags }) => (
-            <ImageGalleryItem id={id} url={previewURL} name={tags} />
+        <ImageGalleryContainer>
+          {images.map(({ id, largeImageURL, tags }) => (
+            <ImageGalleryItem
+              id={id}
+              url={largeImageURL}
+              name={tags}
+              getImage={this.getImage}
+            />
           ))}
-        </ul>
+        </ImageGalleryContainer>
         {images.length < total && (
           <Button
             type={'button'}

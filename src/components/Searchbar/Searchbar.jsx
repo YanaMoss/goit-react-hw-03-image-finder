@@ -1,12 +1,18 @@
 import { Component } from 'react';
 import { toast } from 'react-toastify';
+import {
+  SearchbarForm,
+  SearchForm,
+  SearchFormButton,
+  SearchFormButtonLabel,
+  SearchFormInput,
+} from './Searchbar.styled';
 
 export class Searchbar extends Component {
   state = { query: '' };
 
   handleChange = e => {
     this.setState({ query: e.currentTarget.value.replace(' ', '+') });
-    console.log(this.state.query);
   };
 
   handleSubmit = e => {
@@ -21,22 +27,21 @@ export class Searchbar extends Component {
 
   render() {
     return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">Search</span>
-          </button>
+      <SearchbarForm>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
+            <SearchFormButtonLabel>Search</SearchFormButtonLabel>
+          </SearchFormButton>
 
-          <input
-            className="SearchForm-input"
+          <SearchFormInput
             type="text"
             autocomplete="off"
             autofocus
             placeholder="Search images and photos"
             onChange={this.handleChange}
           />
-        </form>
-      </header>
+        </SearchForm>
+      </SearchbarForm>
     );
   }
 }
