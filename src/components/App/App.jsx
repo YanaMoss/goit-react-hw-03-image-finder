@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Loader from 'react-loader-spinner';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
-import fetchImages from '../services/image-api';
+import fetchImages from '../../services/image-api';
 import { Modal } from '../Modal/Modal';
 import { Searchbar } from '../Searchbar/Searchbar';
 
@@ -60,7 +60,7 @@ export class App extends Component {
         />
         {openModal && (
           <Modal onClose={this.toggleModal}>
-            <img src={url} alt={name} openImage={this.openImage} />
+            <img src={url} alt={name} />
           </Modal>
         )}
         <ToastContainer

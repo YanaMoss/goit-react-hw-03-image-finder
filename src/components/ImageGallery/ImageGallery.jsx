@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import Loader from 'react-loader-spinner';
 import { Button } from '../Button/Button';
-import fetchImages from '../services/image-api';
+import fetchImages from '../../services/image-api';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { ImageGalleryContainer } from './ImageGallery.styled';
 
