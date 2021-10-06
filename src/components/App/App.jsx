@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Loader from 'react-loader-spinner';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
-import fetchImages from '../../services/image-api';
+import fetchImageId from '../../services/image-api';
 import { Modal } from '../Modal/Modal';
 import { Searchbar } from '../Searchbar/Searchbar';
 
@@ -22,7 +22,7 @@ export class App extends Component {
     const { id } = this.state.image;
     if (prevState.image.id !== this.state.image.id) {
       this.setState({ loading: true });
-      fetchImages({ id: id })
+      fetchImageId({ id: id })
         .then(response =>
           this.setState({
             openModal: true,

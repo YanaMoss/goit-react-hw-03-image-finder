@@ -20,11 +20,13 @@ export class ImageGallery extends Component {
     if (prevQuery !== nextQuery) {
       this.setState({ loading: true });
       fetchImages({ page: this.state.page, query: nextQuery })
-        .then(response =>
-          this.setState({
-            images: [...response.data.hits],
-            total: response.data.totalHits,
-          }),
+        .then(
+          response =>
+            this.setState({
+              images: [...response.data.hits],
+              total: response.data.totalHits,
+            }),
+          console.log(nextQuery),
         )
         .finally(() => this.setState({ loading: false }));
     }
