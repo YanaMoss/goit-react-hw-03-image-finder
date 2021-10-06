@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Loader from 'react-loader-spinner';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
-import fetchImageId from '../../services/image-api';
+import { fetchImageId } from '../../services/image-api';
 import { Modal } from '../Modal/Modal';
 import { Searchbar } from '../Searchbar/Searchbar';
 
